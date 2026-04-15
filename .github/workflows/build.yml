@@ -87,8 +87,6 @@ jobs:
 
       - name: Build (Tauri)
         run: bun run build
-        env:
-          TAURI_SIGNING_PRIVATE_KEY: ""
 
       - name: Collect artifacts
         run: |
