@@ -1,1 +1,50 @@
+# Build output
 build/
+dist/
+dist-ssr/
+out/
+.output/
+.next/
+
+# Dependencies
+node_modules/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE / Editor
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Rust / Cargo
+**/target/
+
+# Tauri
+**/gen/schemas
+
+# Misc
+*.local
+.wrangler/
+.vercel/
+.netlify/
+.turbo/
+.cache/
+coverage/
