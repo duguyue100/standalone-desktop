@@ -88,3 +88,29 @@ case ":$PATH:" in
     echo "Then restart your shell or run the command above."
     ;;
 esac
+
+# Check for required dependencies
+echo ""
+MISSING=""
+
+if ! command -v opencode &>/dev/null; then
+  MISSING="opencode"
+  echo "WARNING: 'opencode' is not found in your PATH."
+  echo "  AlfAlfa requires the opencode CLI to function."
+  echo "  Install it from: https://opencode.ai"
+  echo ""
+fi
+
+if ! command -v lf &>/dev/null; then
+  MISSING="${MISSING:+$MISSING, }lf"
+  echo "WARNING: 'lf' is not found in your PATH."
+  echo "  AlfAlfa uses the LatticeFlow CLI for evaluation operations."
+  echo "  Make sure the Python venv containing 'lf' is activated before launching AlfAlfa."
+  echo ""
+fi
+
+if [ -n "$MISSING" ]; then
+  echo "Please ensure the above dependencies are available in your PATH before launching AlfAlfa."
+else
+  echo "All dependencies found. You can launch AlfAlfa by running: AlfAlfa"
+fi
