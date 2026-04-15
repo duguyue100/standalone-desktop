@@ -1,8 +1,8 @@
 [package]
 name = "alfalfa-desktop"
-version = "0.0.0"
+version = "0.1.0"
 description = "AlfAlfa desktop application"
-authors = ["Anomaly Innovations"]
+authors = ["duguyue100"]
 edition = "2024"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
