@@ -4,6 +4,9 @@
 
 A desktop application for working with LatticeFlow AI GO! evaluations, powered by [OpenCode](https://opencode.ai).
 
+<img width="2551" height="1403" alt="image" src="https://github.com/user-attachments/assets/43ceb5e1-3e8d-4836-93cb-ed7497512972" />
+
+
 ## Install
 
 ```bash
