@@ -45,7 +45,7 @@ jobs:
         uses: oven-sh/setup-bun@v2
 
       - name: Install JS dependencies
-        run: bun install --frozen-lockfile
+        run: bun install
 
       - name: Build (Tauri)
         run: bun run build
@@ -83,7 +83,7 @@ jobs:
         uses: oven-sh/setup-bun@v2
 
       - name: Install JS dependencies
-        run: bun install --frozen-lockfile
+        run: bun install
 
       - name: Build (Tauri)
         run: bun run build
