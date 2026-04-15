@@ -26,7 +26,7 @@ AlfAlfa requires two CLI tools in your PATH before launching:
 Launch from a terminal with both dependencies available:
 
 ```bash
-AlfAlfa
+alfalfa
 ```
 
 On first launch, AlfAlfa creates `~/.alfalfa/` which holds its configuration, auth, and the custom `lf` tool. Session data is isolated from your personal OpenCode installation.
@@ -61,7 +61,7 @@ Artifacts in `build/`:
 
 | File | Description |
 |------|-------------|
-| `AlfAlfa` | Linux x86_64 binary |
+| `alfalfa` | Linux x86_64 binary |
 | `AlfAlfa Dev_*.deb` | Debian/Ubuntu package |
 | `AlfAlfa Dev-*.rpm` | Fedora/RHEL package |
 

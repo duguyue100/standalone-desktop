@@ -3,7 +3,7 @@ set -euo pipefail
 
 REPO="duguyue100/standalone-desktop"
 INSTALL_DIR="$HOME/.local/bin"
-BINARY_NAME="AlfAlfa"
+BINARY_NAME="alfalfa"
 
 # Detect OS and architecture
 OS="$(uname -s)"
@@ -60,7 +60,7 @@ mv "$TMPFILE" "${INSTALL_DIR}/${BINARY_NAME}"
 chmod +x "${INSTALL_DIR}/${BINARY_NAME}"
 
 echo ""
-echo "AlfAlfa installed to ${INSTALL_DIR}/${BINARY_NAME}"
+echo "alfalfa installed to ${INSTALL_DIR}/${BINARY_NAME}"
 
 # Check if install dir is in PATH
 case ":$PATH:" in
@@ -96,7 +96,7 @@ MISSING=""
 if ! command -v opencode &>/dev/null; then
   MISSING="opencode"
   echo "WARNING: 'opencode' is not found in your PATH."
-  echo "  AlfAlfa requires the opencode CLI to function."
+  echo "  alfalfa requires the opencode CLI to function."
   echo "  Install it from: https://opencode.ai"
   echo ""
 fi
@@ -104,13 +104,13 @@ fi
 if ! command -v lf &>/dev/null; then
   MISSING="${MISSING:+$MISSING, }lf"
   echo "WARNING: 'lf' is not found in your PATH."
-  echo "  AlfAlfa uses the LatticeFlow CLI for evaluation operations."
-  echo "  Make sure the Python venv containing 'lf' is activated before launching AlfAlfa."
+  echo "  alfalfa uses the LatticeFlow CLI for evaluation operations."
+  echo "  Make sure the Python venv containing 'lf' is activated before launching alfalfa."
   echo ""
 fi
 
 if [ -n "$MISSING" ]; then
-  echo "Please ensure the above dependencies are available in your PATH before launching AlfAlfa."
+  echo "Please ensure the above dependencies are available in your PATH before launching alfalfa."
 else
-  echo "All dependencies found. You can launch AlfAlfa by running: AlfAlfa"
+  echo "All dependencies found. You can launch alfalfa by running: alfalfa"
 fi

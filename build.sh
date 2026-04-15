@@ -26,7 +26,7 @@ docker run --rm --user "$(id -u):$(id -g)" \
   -v "$BUILD_DIR:/output" \
   "$IMAGE" \
   sh -c '
-    cp /app/packages/desktop/src-tauri/target/release/AlfAlfa /output/
+    cp /app/packages/desktop/src-tauri/target/release/AlfAlfa /output/alfalfa
     cp /app/packages/desktop/src-tauri/target/release/bundle/deb/*.deb /output/ 2>/dev/null || true
     cp /app/packages/desktop/src-tauri/target/release/bundle/rpm/*.rpm /output/ 2>/dev/null || true
   '
@@ -37,7 +37,7 @@ ls -lh "$BUILD_DIR"
 
 if [ "$INSTALL" = true ]; then
   mkdir -p "$HOME/.local/bin"
-  cp "$BUILD_DIR/AlfAlfa" "$HOME/.local/bin/AlfAlfa"
+  cp "$BUILD_DIR/alfalfa" "$HOME/.local/bin/alfalfa"
   echo ""
-  echo "==> Installed to ~/.local/bin/AlfAlfa"
+  echo "==> Installed to ~/.local/bin/alfalfa"
 fi
