@@ -1,3 +1,4 @@
+mod alfalfa;
 mod cli;
 mod constants;
 #[cfg(target_os = "linux")]
@@ -386,7 +387,12 @@ fn make_specta_builder() -> tauri_specta::Builder<tauri::Wry> {
             check_app_exists,
             wsl_path,
             resolve_app_path,
-            open_path
+            open_path,
+            alfalfa::ensure_project_journal,
+            alfalfa::get_journal_path,
+            alfalfa::get_journal_overview,
+            alfalfa::load_lf_skills,
+            alfalfa::check_lf_available
         ])
         .events(tauri_specta::collect_events![
             LoadingWindowComplete,
@@ -416,6 +422,11 @@ struct LoadingWindowComplete;
 
 async fn initialize(app: AppHandle) {
     tracing::info!("Initializing app");
+
+    // Ensure ~/.alfalfa/ directory structure, auth, and identity config
+    if let Err(e) = alfalfa::ensure_directories() {
+        tracing::error!("Failed to initialize AlfAlfa directories: {e}");
+    }
 
     let (init_tx, init_rx) = watch::channel(InitStep::ServerWaiting);
 
@@ -581,17 +592,8 @@ fn sqlite_file_exists() -> bool {
 }
 
 fn opencode_db_path() -> Result<PathBuf, &'static str> {
-    let xdg_data_home = env::var_os("XDG_DATA_HOME").filter(|v| !v.is_empty());
-
-    let data_home = match xdg_data_home {
-        Some(v) => PathBuf::from(v),
-        None => {
-            let home = dirs::home_dir().ok_or("cannot determine home directory")?;
-            home.join(".local").join("share")
-        }
-    };
-
-    Ok(data_home.join("opencode").join("opencode.db"))
+    // Use the AlfAlfa data directory (~/.alfalfa/data/opencode/opencode.db)
+    alfalfa::opencode_db_path().map_err(|_| "cannot determine AlfAlfa data directory")
 }
 
 // Creates a `once` listener for the specified event and returns a future that resolves

@@ -10,6 +10,7 @@ import { useLanguage } from "@/context/language"
 import { useLayout } from "@/context/layout"
 import { useLocal } from "@/context/local"
 import { usePermission } from "@/context/permission"
+import { usePlatform } from "@/context/platform"
 import { type ContextItem, type ImageAttachmentPart, type Prompt, usePrompt } from "@/context/prompt"
 import { useSDK } from "@/context/sdk"
 import { useSync } from "@/context/sync"
@@ -19,6 +20,7 @@ import { Worktree as WorktreeState } from "@/utils/worktree"
 import { buildRequestParts } from "./build-request-parts"
 import { setCursorPosition } from "./editor-dom"
 import { formatServerError } from "@/utils/server-errors"
+import { initializeAlfalfaSession } from "@/services/alfalfa-session"
 
 type PendingPrompt = {
   abort: AbortController
@@ -207,6 +209,7 @@ export function createPromptSubmit(input: PromptSubmitInput) {
   const layout = useLayout()
   const language = useLanguage()
   const params = useParams()
+  const platform = usePlatform()
 
   const errorMessage = (err: unknown) => {
     if (err && typeof err === "object" && "data" in err) {
@@ -375,6 +378,9 @@ export function createPromptSubmit(input: PromptSubmitInput) {
         local.session.promote(sessionDirectory, session.id)
         layout.handoff.setTabs(base64Encode(sessionDirectory), session.id)
         navigate(`/${base64Encode(sessionDirectory)}/session/${session.id}`)
+
+        // AlfAlfa: inject lf skills + journal overview into the new session
+        await initializeAlfalfaSession(client, session.id, sessionDirectory, platform).catch(() => {})
       }
     }
     if (!session) {

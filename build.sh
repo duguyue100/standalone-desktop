@@ -5,11 +5,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 IMAGE="alfalfa-standalone-desktop"
 BUILD_DIR="$SCRIPT_DIR/build"
 DOCKER_ARGS=()
+INSTALL=false
 
 for arg in "$@"; do
   case "$arg" in
     --no-cache) DOCKER_ARGS+=(--no-cache) ;;
-    *) echo "Unknown option: $arg"; echo "Usage: $0 [--no-cache]"; exit 1 ;;
+    --install) INSTALL=true ;;
+    *) echo "Unknown option: $arg"; echo "Usage: $0 [--no-cache] [--install]"; exit 1 ;;
   esac
 done
 
@@ -32,3 +34,10 @@ docker run --rm --user "$(id -u):$(id -g)" \
 echo ""
 echo "==> Build complete. Artifacts:"
 ls -lh "$BUILD_DIR"
+
+if [ "$INSTALL" = true ]; then
+  mkdir -p "$HOME/.local/bin"
+  cp "$BUILD_DIR/AlfAlfa" "$HOME/.local/bin/AlfAlfa"
+  echo ""
+  echo "==> Installed to ~/.local/bin/AlfAlfa"
+fi

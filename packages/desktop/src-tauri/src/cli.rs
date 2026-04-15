@@ -449,10 +449,22 @@ pub fn serve(
 
     tracing::info!(port, "Spawning opencode from PATH");
 
-    let envs = [
+    let mut envs = vec![
         ("OPENCODE_SERVER_USERNAME", "opencode".to_string()),
         ("OPENCODE_SERVER_PASSWORD", password.to_string()),
     ];
+
+    // Redirect the opencode server's data into ~/.alfalfa/ via XDG overrides
+    match crate::alfalfa::xdg_env_overrides() {
+        Ok(xdg_envs) => {
+            for (key, value) in xdg_envs {
+                envs.push((key, value));
+            }
+        }
+        Err(e) => {
+            tracing::warn!("Failed to compute XDG overrides for AlfAlfa: {e}");
+        }
+    }
 
     let (events, child) = spawn_command(
         app,

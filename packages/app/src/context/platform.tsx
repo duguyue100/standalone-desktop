@@ -87,6 +87,23 @@ export type Platform = {
 
   /** Read image from clipboard (desktop only) */
   readClipboardImage?(): Promise<File | null>
+
+  // -- AlfAlfa-specific --
+
+  /** Load lf skills via the lf CLI */
+  loadLfSkills?(): Promise<string>
+
+  /** Check if the lf CLI is available */
+  checkLfAvailable?(): Promise<boolean>
+
+  /** Ensure journal directory and seed files for a project */
+  ensureProjectJournal?(projectPath: string): Promise<string>
+
+  /** Get the journal directory path for a project */
+  getJournalPath?(projectPath: string): Promise<string>
+
+  /** Read the journal overview.md for a project */
+  getJournalOverview?(projectPath: string): Promise<string>
 }
 
 export type DisplayBackend = "auto" | "wayland"

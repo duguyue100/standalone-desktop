@@ -33,7 +33,7 @@ import { initI18n, t } from "./i18n"
 import { UPDATER_ENABLED } from "./updater"
 import { webviewZoom } from "./webview-zoom"
 import "./styles.css"
-import { Channel } from "@tauri-apps/api/core"
+import { Channel, invoke } from "@tauri-apps/api/core"
 import { commands, type InitStep } from "./bindings"
 import { createMenu } from "./menu"
 
@@ -406,6 +406,21 @@ const createPlatform = (): Platform => {
         }, "image/png")
       })
     },
+
+    // -- AlfAlfa-specific Tauri commands --
+
+    loadLfSkills: () => invoke<string>("load_lf_skills"),
+
+    checkLfAvailable: () => invoke<boolean>("check_lf_available"),
+
+    ensureProjectJournal: (projectPath: string) =>
+      invoke<string>("ensure_project_journal", { projectPath }),
+
+    getJournalPath: (projectPath: string) =>
+      invoke<string>("get_journal_path", { projectPath }),
+
+    getJournalOverview: (projectPath: string) =>
+      invoke<string>("get_journal_overview", { projectPath }),
   }
 }
 
@@ -475,6 +490,16 @@ render(() => {
     document.addEventListener("click", handleClick)
     onCleanup(() => {
       document.removeEventListener("click", handleClick)
+    })
+
+    // AlfAlfa: check lf CLI availability on startup
+    platform.checkLfAvailable?.().then((available) => {
+      if (!available) {
+        console.warn(
+          "AlfAlfa: `lf` CLI not found on PATH. LatticeFlow skills will not be available. " +
+            "Make sure the venv with `lf` is activated before launching AlfAlfa.",
+        )
+      }
     })
   })
 

@@ -7,6 +7,7 @@ import { useLanguage } from "@/context/language"
 import { useLayout } from "@/context/layout"
 import { useLocal } from "@/context/local"
 import { usePermission } from "@/context/permission"
+import { usePlatform } from "@/context/platform"
 import { usePrompt } from "@/context/prompt"
 import { useSDK } from "@/context/sdk"
 import { useSync } from "@/context/sync"
@@ -17,6 +18,7 @@ import { createSessionTabs } from "@/pages/session/helpers"
 import { extractPromptFromParts } from "@/utils/prompt"
 import { UserMessage } from "@opencode-ai/sdk/v2"
 import { useSessionLayout } from "@/pages/session/session-layout"
+import { runJournal, runJournalReview } from "@/services/journal"
 
 export type SessionCommandContext = {
   navigateMessageByOffset: (offset: number) => void
@@ -39,6 +41,7 @@ export const useSessionCommands = (actions: SessionCommandContext) => {
   const language = useLanguage()
   const local = useLocal()
   const permission = usePermission()
+  const platform = usePlatform()
   const prompt = usePrompt()
   const sdk = useSDK()
   const sync = useSync()
@@ -411,6 +414,52 @@ export const useSessionCommands = (actions: SessionCommandContext) => {
       slash: "fork",
       disabled: !params.id || visibleUserMessages().length === 0,
       onSelect: fork,
+    }),
+    sessionCommand({
+      id: "session.journal",
+      title: "Update journal",
+      description: "Update project journal from this session",
+      slash: "journal",
+      disabled: !params.id,
+      onSelect: async () => {
+        if (!params.id) return
+        showToast({ title: "Updating journal...", variant: "loading" })
+        const journalPath = platform.getJournalPath
+          ? await platform.getJournalPath(sdk.directory)
+          : ""
+        if (!journalPath) {
+          showToast({ title: "Journal not available", variant: "error" })
+          return
+        }
+        const result = await runJournal(sdk.client, params.id, journalPath, sdk.directory)
+        if (result.success) {
+          showToast({ title: "Journal updated", variant: "success" })
+        } else {
+          showToast({ title: "Journal update failed", description: result.error, variant: "error" })
+        }
+      },
+    }),
+    sessionCommand({
+      id: "session.journalReview",
+      title: "Review journal",
+      description: "Review journal for gaps, stale info, contradictions",
+      slash: "journal-review",
+      onSelect: async () => {
+        showToast({ title: "Reviewing journal...", variant: "loading" })
+        const journalPath = platform.getJournalPath
+          ? await platform.getJournalPath(sdk.directory)
+          : ""
+        if (!journalPath) {
+          showToast({ title: "Journal not available", variant: "error" })
+          return
+        }
+        const result = await runJournalReview(sdk.client, journalPath, sdk.directory)
+        if (result.success) {
+          showToast({ title: "Journal review complete", variant: "success" })
+        } else {
+          showToast({ title: "Journal review failed", description: result.error, variant: "error" })
+        }
+      },
     }),
   ]
 
