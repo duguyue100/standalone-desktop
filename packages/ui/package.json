@@ -41,7 +41,7 @@
   },
   "dependencies": {
     "@kobalte/core": "catalog:",
-    "@opencode-ai/sdk": "0.0.0-dev-202604142239",
+    "@opencode-ai/sdk": "1.4.6",
     "@opencode-ai/util": "workspace:*",
     "@pierre/diffs": "catalog:",
     "@shikijs/transformers": "3.9.2",

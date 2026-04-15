@@ -427,7 +427,7 @@ async fn initialize(app: AppHandle) {
     let url = format!("http://{hostname}:{port}");
     let password = uuid::Uuid::new_v4().to_string();
 
-    tracing::info!("Spawning opencode on {url}");
+    tracing::info!("Spawning sidecar on {url}");
     let spawn_result =
         server::spawn_local_server(app.clone(), hostname.to_string(), port, password.clone());
 
@@ -448,7 +448,7 @@ async fn initialize(app: AppHandle) {
             run_loading_sequence(&app, init_tx, health_check).await;
         }
         Err(e) => {
-            tracing::error!("Failed to spawn opencode: {e}");
+            tracing::error!("Failed to spawn sidecar: {e}");
             tracing::error!("Make sure 'opencode' is installed and available in your PATH");
 
             // Send error data so the frontend gets an error instead of hanging

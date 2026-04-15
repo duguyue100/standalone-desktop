@@ -46,13 +46,13 @@ void initI18n()
 
 let update: Update | null = null
 
-const deepLinkEvent = "opencode:deep-link"
+const deepLinkEvent = "alfalfa:deep-link"
 
 const emitDeepLinks = (urls: string[]) => {
   if (urls.length === 0) return
-  window.__OPENCODE__ ??= {}
-  const pending = window.__OPENCODE__.deepLinks ?? []
-  window.__OPENCODE__.deepLinks = [...pending, ...urls]
+  window.__ALFALFA__ ??= {}
+  const pending = window.__ALFALFA__.deepLinks ?? []
+  window.__ALFALFA__.deepLinks = [...pending, ...urls]
   window.dispatchEvent(new CustomEvent(deepLinkEvent, { detail: { urls } }))
 }
 
@@ -70,12 +70,12 @@ const createPlatform = (): Platform => {
   })()
 
   const wslHome = async () => {
-    if (os !== "windows" || !window.__OPENCODE__?.wsl) return undefined
+    if (os !== "windows" || !window.__ALFALFA__?.wsl) return undefined
     return commands.wslPath("~", "windows").catch(() => undefined)
   }
 
   const handleWslPicker = async <T extends string | string[]>(result: T | null): Promise<T | null> => {
-    if (!result || !window.__OPENCODE__?.wsl) return result
+    if (!result || !window.__ALFALFA__?.wsl) return result
     if (Array.isArray(result)) {
       return Promise.all(result.map((path) => commands.wslPath(path, "linux").catch(() => path))) as any
     }
@@ -346,7 +346,7 @@ const createPlatform = (): Platform => {
     getWslEnabled: async () => {
       const next = await commands.getWslConfig().catch(() => null)
       if (next) return next.enabled
-      return window.__OPENCODE__!.wsl ?? false
+      return window.__ALFALFA__!.wsl ?? false
     },
 
     setWslEnabled: async (enabled) => {
@@ -495,7 +495,7 @@ render(() => {
               "font-family": "system-ui, sans-serif",
             }}
           >
-            <h1 style={{ "font-size": "1.5rem", "margin-bottom": "1rem" }}>Failed to start opencode</h1>
+            <h1 style={{ "font-size": "1.5rem", "margin-bottom": "1rem" }}>Failed to start AlfAlfa</h1>
             <p style={{ "max-width": "500px", "line-height": "1.6", opacity: "0.8" }}>
               Could not find or start the <code>opencode</code> binary. Make sure it is installed and available in your
               PATH.

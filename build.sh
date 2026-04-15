@@ -2,7 +2,7 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-IMAGE="opencode-standalone-desktop"
+IMAGE="alfalfa-standalone-desktop"
 BUILD_DIR="$SCRIPT_DIR/build"
 DOCKER_ARGS=()
 
@@ -24,9 +24,9 @@ docker run --rm --user "$(id -u):$(id -g)" \
   -v "$BUILD_DIR:/output" \
   "$IMAGE" \
   sh -c '
-    cp /app/packages/desktop/src-tauri/target/release/OpenCode /output/
-    cp /app/packages/desktop/src-tauri/target/release/bundle/deb/*.deb /output/
-    cp /app/packages/desktop/src-tauri/target/release/bundle/rpm/*.rpm /output/
+    cp /app/packages/desktop/src-tauri/target/release/AlfAlfa /output/
+    cp /app/packages/desktop/src-tauri/target/release/bundle/deb/*.deb /output/ 2>/dev/null || true
+    cp /app/packages/desktop/src-tauri/target/release/bundle/rpm/*.rpm /output/ 2>/dev/null || true
   '
 
 echo ""

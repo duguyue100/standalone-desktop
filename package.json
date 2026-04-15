@@ -1,5 +1,5 @@
 {
-  "name": "opencode-standalone-desktop",
+  "name": "alfalfa-standalone-desktop",
   "private": true,
   "type": "module",
   "packageManager": "bun@1.3.11",

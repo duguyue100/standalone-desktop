@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop-application">
-  <id>ai.opencode.opencode</id>
+  <id>ai.alfalfa.alfalfa</id>
 
   <metadata_license>CC0-1.0</metadata_license>
   <project_license>MIT</project_license>
 
-  <name>OpenCode</name>
-  <summary>Open source AI coding agent</summary>
+  <name>AlfAlfa</name>
+  <summary>AlfAlfa desktop application</summary>
 
   <developer id="ly.anoma">
     <name>Anomaly Innovations Inc.</name>
@@ -14,11 +14,11 @@
 
   <description>
     <p>
-      OpenCode is an open source agent that helps you write and run code with any AI model.
+      AlfAlfa is a desktop application powered by OpenCode.
     </p>
   </description>
 
-  <launchable type="desktop-id">ai.opencode.opencode.desktop</launchable>
+  <launchable type="desktop-id">ai.alfalfa.alfalfa.desktop</launchable>
 
   <content_rating type="oars-1.1" />
 

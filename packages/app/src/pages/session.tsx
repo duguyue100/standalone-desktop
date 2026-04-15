@@ -2056,7 +2056,7 @@ export default function Page() {
         />
       </div>
 
-      <TerminalPanel />
+      {/* Terminal panel disabled */}
     </div>
   )
 }
